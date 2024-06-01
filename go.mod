@@ -13,6 +13,7 @@ require (
 	github.com/gofish2020/gojson v0.0.0-20220929143546-201772c2dd37
 	github.com/klauspost/compress v1.15.9
 	github.com/tebeka/selenium v0.9.9
+	gopkg.in/ini.v1 v1.67.0
 )
 
 require (
@@ -22,6 +23,7 @@ require (
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 )

@@ -5,6 +5,8 @@ import (
 	"github.com/tebeka/selenium/chrome"
 )
 
+// 这里修改为自己的路径
+const chromeDriverPath = "/usr/local/bin/chromedriver"
 const port = 4444
 
 var service *selenium.Service
@@ -12,7 +14,7 @@ var service *selenium.Service
 func init() {
 	var err error
 	opts := make([]selenium.ServiceOption, 0)
-	service, err = selenium.NewChromeDriverService("/usr/local/bin/chromedriver", port, opts...)
+	service, err = selenium.NewChromeDriverService(chromeDriverPath, port, opts...)
 	if err != nil {
 		panic("启动浏览器驱动服务失败,err= " + err.Error())
 	}

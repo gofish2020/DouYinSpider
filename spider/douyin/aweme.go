@@ -17,6 +17,7 @@ import (
 
 const userAwemeListUrl = "https://www.douyin.com/aweme/v1/web/aweme/post/"
 
+// 这里代码没用，因为需要签名，但是找的js 脚本签名出来的和实际的对不上
 func GetUserAwemeList(userUrl string, cursor string) (result *gojson.Json, err error) {
 
 	userResult, err := url.Parse(strings.TrimSpace(userUrl))

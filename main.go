@@ -15,6 +15,9 @@ import (
 	"github.com/gofish2020/MedicalSpider/utils"
 )
 
+
+
+
 func main() {
 
 	flag.Parse() // ./MedicalSpider xxxxx
@@ -23,6 +26,7 @@ func main() {
 	if len(os.Args) > 1 {
 		destUrl = os.Args[1]
 	}
+
 	// 日志初始化
 	logger.Setup(&logger.Settings{
 		Path:       "./logs/",

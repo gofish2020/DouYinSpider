@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,19 @@ import (
 获取评论
 */
 
+var cookieStr string
+
+func init() {
+
+	cookie, err := os.ReadFile("./cookies.txt")
+	if err != nil {
+		fmt.Printf("Fail to read file: %v", err)
+		os.Exit(1)
+	}
+
+	cookieStr = string(cookie)
+}
+
 const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 
 const headerStr = `Accept: application/json, text/plain, */*
@@ -36,8 +50,6 @@ Sec-Ch-Ua-Platform: "macOS"
 Sec-Fetch-Dest: empty
 Sec-Fetch-Mode: cors
 Sec-Fetch-Site: same-origin`
-
-const cookieStr = "ttwid=1%7CFVE2kMPBqFvkO4qA0LratVDDT_BsgZcjxH9Yrdmf2q8%7C1684170786%7Ce6aea5165f82b8a6b1d623a26d2e7317e31341ef4dd16ab07710d73a5a434f9d; LOGIN_STATUS=1; store-region=cn-ah; store-region-src=uid; my_rd=1; bd_ticket_guard_client_web_domain=2; dy_swidth=1512; dy_sheight=982; live_use_vvc=%22false%22; SEARCH_RESULT_LIST_TYPE=%22single%22; xgplayer_device_id=29315359380; passport_assist_user=CjyogSxaLwNt7PeDD6g5bMxENqNErkVSzOnN6fpG5ZyOLKDP4QBsYcCH3HJGOtFEA3-fAJ0spjt_VyEvIgIaSgo8xghSo7ZW1S7BW6V1bkziJlpiNCzxAaPzXw1n5FHmSqegN_FJIVhuyP3Q_S-W82r5Eiirx3cmjSIQepzFEKrgzg0Yia_WVCABIgED1cI8XA%3D%3D; n_mh=5sxwI9YZgUwJ1h3k7SsM8ZO0MNR7APLsq56Z8YZk9nQ; sso_uid_tt=9e7ecb8a01d3aeac26e4be4f34abd603; sso_uid_tt_ss=9e7ecb8a01d3aeac26e4be4f34abd603; toutiao_sso_user=05be5032ed2dd33dd3ea2d34576beae2; toutiao_sso_user_ss=05be5032ed2dd33dd3ea2d34576beae2; uid_tt=d1ad0bf67a15f064259b37a07105851f; uid_tt_ss=d1ad0bf67a15f064259b37a07105851f; sid_tt=11627b6b93e061f75da62c2db102c463; sessionid=11627b6b93e061f75da62c2db102c463; sessionid_ss=11627b6b93e061f75da62c2db102c463; _bd_ticket_crypt_doamin=2; _bd_ticket_crypt_cookie=42e301000c4ea541972f2cf8a23e192c; __security_server_data_status=1; douyin.com; device_web_cpu_core=8; device_web_memory_size=8; csrf_session_id=ff5a5854443708de6da8386180701fbc; passport_fe_beating_status=true; sid_ucp_sso_v1=1.0.0-KGFlM2I2NjcxMzc2ODQzNGFmNTZhNjI4MzkwNDNhZDUyMmJlY2RjMWEKHQjYidvXygIQjv_zsQYY7zEgDDC827_TBTgGQPQHGgJsZiIgMDViZTUwMzJlZDJkZDMzZGQzZWEyZDM0NTc2YmVhZTI; ssid_ucp_sso_v1=1.0.0-KGFlM2I2NjcxMzc2ODQzNGFmNTZhNjI4MzkwNDNhZDUyMmJlY2RjMWEKHQjYidvXygIQjv_zsQYY7zEgDDC827_TBTgGQPQHGgJsZiIgMDViZTUwMzJlZDJkZDMzZGQzZWEyZDM0NTc2YmVhZTI; sid_guard=11627b6b93e061f75da62c2db102c463%7C1715273614%7C5184000%7CMon%2C+08-Jul-2024+16%3A53%3A34+GMT; sid_ucp_v1=1.0.0-KDZjYTg2ZmJmMmU4ZTY2YzEwN2Q3NGQ2ZTZlM2E1YjgzZmExY2NmNzYKGQjYidvXygIQjv_zsQYY7zEgDDgGQPQHSAQaAmhsIiAxMTYyN2I2YjkzZTA2MWY3NWRhNjJjMmRiMTAyYzQ2Mw; ssid_ucp_v1=1.0.0-KDZjYTg2ZmJmMmU4ZTY2YzEwN2Q3NGQ2ZTZlM2E1YjgzZmExY2NmNzYKGQjYidvXygIQjv_zsQYY7zEgDDgGQPQHSAQaAmhsIiAxMTYyN2I2YjkzZTA2MWY3NWRhNjJjMmRiMTAyYzQ2Mw; s_v_web_id=verify_lw53dly9_Sfb80Jjv_JIMT_4YKv_BVVq_vYe0bPggLOVK; passport_csrf_token=ae7d474be5a5ee98db090f0bccc213ed; passport_csrf_token_default=ae7d474be5a5ee98db090f0bccc213ed; publish_badge_show_info=%220%2C0%2C0%2C1716393925183%22; download_guide=%223%2F20240518%2F1%22; webcast_paid_live_duration=%7B%227371372792128241727%22%3A1%7D; pwa2=%220%7C0%7C3%7C0%22; __live_version__=%221.1.2.555%22; webcast_leading_last_show_time=1716917660303; webcast_leading_total_show_times=8; xg_device_score=7.379649772277164; strategyABtestKey=%221716971708.932%22; xgplayer_user_id=965101663182; live_can_add_dy_2_desktop=%221%22; stream_recommend_feed_params=%22%7B%5C%22cookie_enabled%5C%22%3Atrue%2C%5C%22screen_width%5C%22%3A1512%2C%5C%22screen_height%5C%22%3A982%2C%5C%22browser_online%5C%22%3Atrue%2C%5C%22cpu_core_num%5C%22%3A8%2C%5C%22device_memory%5C%22%3A8%2C%5C%22downlink%5C%22%3A0.15%2C%5C%22effective_type%5C%22%3A%5C%22slow-2g%5C%22%2C%5C%22round_trip_time%5C%22%3A3000%7D%22; volume_info=%7B%22isUserMute%22%3Afalse%2C%22isMute%22%3Atrue%2C%22volume%22%3A1%7D; WallpaperGuide=%7B%22showTime%22%3A1716974114778%2C%22closeTime%22%3A0%2C%22showCount%22%3A5%2C%22cursor1%22%3A99%2C%22cursor2%22%3A0%2C%22hoverTime%22%3A1715954055532%7D; stream_player_status_params=%22%7B%5C%22is_auto_play%5C%22%3A0%2C%5C%22is_full_screen%5C%22%3A0%2C%5C%22is_full_webscreen%5C%22%3A0%2C%5C%22is_mute%5C%22%3A0%2C%5C%22is_speed%5C%22%3A1%2C%5C%22is_visible%5C%22%3A0%7D%22; FOLLOW_NUMBER_YELLOW_POINT_INFO=%22MS4wLjABAAAAnHay_u3dMGKaG09nbzbp3Wp1TxUUp8sE-5IvtSG3rzw%2F1716998400000%2F0%2F1716977060800%2F0%22; __ac_nonce=0665707de00be3f6f1302; __ac_signature=_02B4Z6wo00f01akBNRgAAIDC-.4VAKyFN9WpITGAAAwYQpL5uFoNO6j7GuU1n9lYJMVjwfPAVqiDEwWBTMeyc8KP14ndD8hqIjDa.T.Z8MLxtQ1LrH51-GhRRL77aduERMhHMHZlGIbq.7Yo9b; IsDouyinActive=true; home_can_add_dy_2_desktop=%221%22; FOLLOW_LIVE_POINT_INFO=%22MS4wLjABAAAAnHay_u3dMGKaG09nbzbp3Wp1TxUUp8sE-5IvtSG3rzw%2F1716998400000%2F0%2F1716979681464%2F0%22; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWl0ZXJhdGlvbi12ZXJzaW9uIjoxLCJiZC10aWNrZXQtZ3VhcmQtcmVlLXB1YmxpYy1rZXkiOiJCT0V4aEh3WStKZHBhWm96azYrN1ZWT21MaEdSSTVrMURmVzhRWTRxcGVzK1U3U1UvZXZObjhDQTlRZUIrWDNtSEZzbWs4dDhZekMyeEhhYjNJMjR3T3c9IiwiYmQtdGlja2V0LWd1YXJkLXdlYi12ZXJzaW9uIjoxfQ%3D%3D; odin_tt=8cf084543cbd0e5de180dba6652e23dd3eebb7f507758d5d34351bdd2cf299c055cb45f727ec87b0aeb67e74a11e4c8b; msToken=Gle8DPe0y_reUZwUK-5aPEYdgFL91l0EvRZ99nVf7iZWJ-ihNHhfXPJ8b1JlcruCFZdOa0R-tYysR1kyCn0nfE-kZnPXi_FuiNtBU0ebEq-r-nu8PuqdC9AfrF8OoVB6BQ=="
 
 const commentURL = "https://www.douyin.com/aweme/v1/web/comment/list/"
 
