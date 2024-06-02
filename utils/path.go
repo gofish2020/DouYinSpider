@@ -50,3 +50,4 @@ func checkPermission(src string) bool {
 func MakeDir(src string) error {
 	return os.MkdirAll(src, os.ModePerm)
 }
+

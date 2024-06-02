@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -28,13 +27,17 @@ var cookieStr string
 
 func init() {
 
-	cookie, err := os.ReadFile("./cookies.txt")
-	if err != nil {
-		fmt.Printf("Fail to read file: %v", err)
-		os.Exit(1)
-	}
+	// cookie, err := os.ReadFile("./cookies.txt")
+	// if err != nil {
+	// 	fmt.Printf("Fail to read file: %v", err)
+	// 	os.Exit(1)
+	// }
 
-	cookieStr = string(cookie)
+	// cookieStr = string(cookie)
+}
+
+func SetCookie(cookie string) {
+	cookieStr = cookie
 }
 
 const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -244,9 +247,9 @@ const (
 )
 
 // 获取一个视频的所有的评论 （一级评论 + 二级评论）
-func GetAwemeComment(aweme_id string) {
+func GetAwemeComment(aweme_id string, douyinId string) {
 
-	file := csv.NewFile(aweme_id + "-" + strconv.FormatInt(time.Now().Unix(), 10) + ".csv")
+	file := csv.NewFile(aweme_id+"-"+strconv.FormatInt(time.Now().Unix(), 10)+".csv", douyinId)
 	file.Write(fileHeader)
 	defer file.Close()
 

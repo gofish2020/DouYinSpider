@@ -15,8 +15,8 @@ type File struct {
 	writer *csv.Writer
 }
 
-func (f *File) Open(fileName string) error {
-	file, err := utils.OpenFile(fileName, "./data/")
+func (f *File) Open(fileName string, douyiID string) error {
+	file, err := utils.OpenFile(fileName, "./data/"+douyiID+"/")
 
 	if err != nil {
 		return err
@@ -45,8 +45,8 @@ func (f *File) Close() {
 
 }
 
-func NewFile(fileName string) File {
+func NewFile(fileName string, douyinId string) File {
 	f := File{}
-	f.Open(fileName)
+	f.Open(fileName, douyinId)
 	return f
 }

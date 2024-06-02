@@ -19,3 +19,20 @@ func RandString(n int) string {
 	}
 	return string(result)
 }
+
+func GetDouYinId(data string) string {
+	src := []rune(data)
+	pos := -1
+	for i, r := range src {
+		if r == '：' {
+			pos = i
+			break
+		}
+	}
+
+	if pos == -1 {
+		return ""
+	}
+	douyinId := string(src[pos+1:])
+	return douyinId
+}
