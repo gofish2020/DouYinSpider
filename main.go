@@ -75,13 +75,13 @@ func SpiderOneUser(destUrl string, driver selenium.WebDriver) (err error) {
 
 	logger.Info("扫码登录成功")
 
+	// 获取cookies信息
 	cookies, err := driver.GetCookies()
 	if err != nil {
 		log.Fatal("Error cookies:", err)
 		return
 	}
 
-	// 获取cookies信息
 	cookieStr := []string{}
 	for _, cookie := range cookies {
 
