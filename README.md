@@ -162,3 +162,6 @@ logger.Info("等待扫码登录...")
 - 找一个自己喜欢看的个人主页，复制整个url，例如: https://www.douyin.com/user/MS4wLjABAAAAG0itb5W4abVyFGxSNlGkKvG20un-Ix4R2UfuJUeXHo0?vid=7375750907994197286
 - 然后就等待即可（这时看下浏览器，如果需要登录，用app扫码登录，不然程序是不会爬取数据的），最终数据保存到在`data`文件夹下，子文件夹的名字是抖音号
 - 爬取完成后，可以继续输入用户主页的url，继续爬取
+
+最终数据如下
+![](image-4.png)
